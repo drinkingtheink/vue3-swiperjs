@@ -3,8 +3,9 @@
     <div class="comp-dash-account-carousel swiper-container" ref="accountCarousel">
       <div class="swiper-wrapper" ref="carouselWrapper">
         <div 
-            v-for="account in accounts" 
+            v-for="account, index in accounts" 
             class="swiper-slide"
+            :class="`account-slide-${index}`"
             :key="account.name"
         >
             {{ account.name }}
@@ -46,8 +47,6 @@ export default {
     },
     methods: {
         buildCarouselOptions() {
-            let vm = this;
-            
             let carouselOptions = {
                 pagination: {
                     el: '.swiper-pagination',
@@ -62,23 +61,12 @@ export default {
                     paginationBulletMessage: 'Go to Account {{index}}',
                     lastSlideMessage: 'This is the last Account in this list'
                 },
-                on: {
-                    slideChange: function () {
-                        vm.adjustCarousel();
-                    },
-                },
             }
 
             this.carouselOptions = carouselOptions;
         },
         initCarousel() {
             this.accountCarousel = new Swiper(this.$refs.accountCarousel, this.carouselOptions);
-        },
-        adjustCarousel() {
-            let currentActiveIndex = this.$refs.accountCarousel.swiper.activeIndex;
-            console.log(`ACTIVE PANE INDEX: ${currentActiveIndex}`)
-            // let compStyle = this.$refs.carouselWrapper.style.transform;
-            console.log(`COMP STYLE: ${this.getTranslate3d(this.$refs.carouselWrapper)}`);
         },
         getTranslate3d (el) {
             let values = el.style.transform.split(/\w+\(|\);?/);
@@ -251,6 +239,7 @@ button.swiper-pagination-bullet {
 .swiper-pagination-bullets {
   bottom: 6px;
 }
+
 .swiper-pagination-bullet {
   height: 12px;
   width: 12px;
@@ -259,11 +248,22 @@ button.swiper-pagination-bullet {
   transition: all 0.2s;
   background-color: #ccc;
 }
+
 .swiper-pagination-bullet-active {
   background-color: #006eb2;
   opacity: 1;
 }
+
 .swiper-pagination-bullet-active:hover {
   opacity: 1;
+}
+
+/** CAROUSEL ADJUSTMENTS */
+.account-slide-2.swiper-slide-prev {
+    margin-left: -9px;
+}
+
+.account-slide-3.swiper-slide-prev {
+    margin-left: -15px;
 }
 </style>
