@@ -81,7 +81,7 @@ export default {
             console.log(`COMP STYLE: ${this.getTranslate3d(this.$refs.carouselWrapper)}`);
         },
         getTranslate3d (el) {
-            var values = el.style.transform.split(/\w+\(|\);?/);
+            let values = el.style.transform.split(/\w+\(|\);?/);
             if (!values[1] || !values[1].length) {
                 return [];
             }
@@ -138,8 +138,8 @@ export default {
 
 .swiper-slide {
     flex-shrink: 0;
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
     position: relative;
     transition-property: transform
 }
@@ -243,7 +243,8 @@ button.swiper-pagination-bullet {
 }
 .swiper-slide-active {
     margin-top: 0;
-    height: 196px;margin-top: 0;
+    height: 196px;
+    margin-top: 0;
 }
 
 /** PAGINATION */ 
