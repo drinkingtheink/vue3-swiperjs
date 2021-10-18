@@ -1,27 +1,27 @@
 <template>
-  <div class="hello">
-    <div class="swiper-container" ref="mySlider">
+  <div class="account-carousel-stage">
+    <div class="comp-dash-account-carousel swiper-container" ref="accountCarousel">
       <div class="swiper-wrapper">
-        <div class="swiper-slide">Slide 1</div>
-        <div class="swiper-slide">Slide 2</div>
-        <div class="swiper-slide">Slide 3</div>
+        <div 
+            v-for="account in accounts" 
+            class="swiper-slide"
+            :key="account.name"
+        >
+            {{ account.name }}
+        </div>
       </div>
       <div class="swiper-pagination"></div>
+      <Pagination />
     </div>
   </div>
 </template>
 
 <script>
-// import Swiper JS
-// core version + navigation, pagination modules:
-import Swiper from 'swiper';
-// import Swiper and modules styles
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
+import Swiper, { Pagination } from 'swiper';
+Swiper.use([Pagination]);
 
 export default {
-  name: 'HelloWorld',
+  name: 'AccountCarousel',
   data () {
     return {
       slider: null,
@@ -41,6 +41,23 @@ export default {
           lastSlideMessage: 'This is the last Account in this list'
         }
       },
+      accounts: [
+        {
+          name: 'Account 1'
+        },
+        {
+          name: 'Account 2'
+        },
+        {
+          name: 'Account 3'
+        },
+        {
+          name: 'Account 4'
+        },
+        {
+          name: 'Account 5'
+        },
+      ]
     }
    },
    methods: {
@@ -49,35 +66,15 @@ export default {
     }
   },
   mounted () {
-    this.slider = new Swiper(this.$refs.mySlider, this.carouselOptions)
+    this.slider = new Swiper(this.$refs.accountCarousel, this.carouselOptions)
   }
 }
 </script>
 
 <style>
-.swiper {
-  width: 600px;
-  height: 300px;
-}
-
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-
 /** * Swiper 6.8.4 * Most modern mobile touch slider and framework with hardware accelerated transitions * https://swiperjs.com * * Copyright 2014-2021 Vladimir Kharlampidi * * Released under the MIT License * * Released on: August 23, 2021 */
 :root{
-    --swiper-theme-color:#007aff
+    --swiper-theme-color: #006eb2;
 }
 .swiper-container{
     margin-left:auto;
@@ -276,8 +273,8 @@ a {
     transform:scale(.33)
 }
 .swiper-pagination-bullet{
-    width:8px;
-    height:8px;
+    width:12px;
+    height:12px;
     display:inline-block;
     border-radius:50%;
     background:#000;
