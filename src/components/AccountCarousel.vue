@@ -11,7 +11,6 @@
         </div>
       </div>
       <div class="swiper-pagination"></div>
-      <Pagination />
     </div>
   </div>
 </template>
@@ -23,45 +22,80 @@ Swiper.use([Pagination]);
 export default {
     name: 'AccountCarousel',
     data () {
-    return {
-        slider: null,
-        carouselOptions: {
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            spaceBetween: 10, // achieves the 15px gap between carousel slides as prescribed in final design
-            grabCursor: true,
-            slidesPerView: 1.25,
-            centeredSlides: true,
-            a11y: {
-                containerMessage: 'Your Accounts',
-                paginationBulletMessage: 'Go to Account {{index}}',
-                lastSlideMessage: 'This is the last Account in this list'
+        return {
+            accountCarousel: null,
+            carouselOptions: null,
+            accounts: [
+                {
+                    name: 'Account 1'
+                },
+                {
+                    name: 'Account 2'
+                },
+                {
+                    name: 'Account 3'
+                },
+                {
+                    name: 'Account 4'
+                },
+                {
+                    name: 'Account 5'
+                },
+            ]
+        }
+    },
+    methods: {
+        buildCarouselOptions() {
+            let vm = this;
+            
+            let carouselOptions = {
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                spaceBetween: 10, // achieves the 15px gap between carousel slides as prescribed in final design
+                grabCursor: true,
+                slidesPerView: 1.25,
+                centeredSlides: true,
+                a11y: {
+                    containerMessage: 'Your Accounts',
+                    paginationBulletMessage: 'Go to Account {{index}}',
+                    lastSlideMessage: 'This is the last Account in this list'
+                },
+                on: {
+                    slideChange: function () {
+                        vm.adjustCarousel();
+                    },
+                },
             }
+
+            this.carouselOptions = carouselOptions;
         },
-        accounts: [
-        {
-            name: 'Account 1'
+        initCarousel() {
+            this.accountCarousel = new Swiper(this.$refs.accountCarousel, this.carouselOptions);
         },
-        {
-            name: 'Account 2'
+        adjustCarousel() {
+            let currentActiveIndex = this.$refs.accountCarousel.swiper.activeIndex;
+            console.log(`ACTIVE PANE INDEX: ${currentActiveIndex}`)
+            // let compStyle = this.$refs.carouselWrapper.style.transform;
+            console.log(`COMP STYLE: ${this.getTranslate3d(this.$refs.carouselWrapper)}`);
         },
-        {
-            name: 'Account 3'
-        },
-        {
-            name: 'Account 4'
-        },
-        {
-            name: 'Account 5'
-        },
-        ]
-    }
+        getTranslate3d (el) {
+            var values = el.style.transform.split(/\w+\(|\);?/);
+            if (!values[1] || !values[1].length) {
+                return [];
+            }
+            return values[1].split(/,\s?/g);
+        }
     },
     mounted () {
-        this.slider = new Swiper(this.$refs.accountCarousel, this.carouselOptions);
-    }
+        this.buildCarouselOptions()
+    },
+    watch: {
+        carouselOptions: function () {
+            this.initCarousel();
+        }
+    },
 }
 </script>
 
@@ -195,6 +229,7 @@ button.swiper-pagination-bullet {
 
 .swiper-container {
     height: 240px;
+    padding-top: 6px;
 }
 
 .swiper-slide {
@@ -207,9 +242,8 @@ button.swiper-pagination-bullet {
     margin-top: 10px;
 }
 .swiper-slide-active {
-  margin-top: 0;
-  height: 196px;
-  margin-top: 0;
+    margin-top: 0;
+    height: 196px;margin-top: 0;
 }
 
 /** PAGINATION */ 
