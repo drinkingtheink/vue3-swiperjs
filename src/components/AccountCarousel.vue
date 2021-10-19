@@ -237,7 +237,7 @@ button.swiper-pagination-bullet {
 
 /** PAGINATION */ 
 .swiper-pagination-bullets {
-  bottom: 6px;
+  bottom: 10px;
 }
 
 .swiper-pagination-bullet {
@@ -259,6 +259,14 @@ button.swiper-pagination-bullet {
 }
 
 /** CAROUSEL ADJUSTMENTS */
+.account-slide-0.swiper-slide-prev {
+    margin-left: -4px;
+}
+
+.account-slide-1.swiper-slide-prev {
+    margin-left: -4px;
+}
+
 .account-slide-2.swiper-slide-prev {
     margin-left: -9px;
 }
@@ -266,4 +274,5 @@ button.swiper-pagination-bullet {
 .account-slide-3.swiper-slide-prev {
     margin-left: -15px;
 }
+
 </style>
