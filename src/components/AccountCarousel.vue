@@ -25,7 +25,21 @@ export default {
     data () {
         return {
             accountCarousel: null,
-            carouselOptions: null,
+            carouselOptions: {
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                spaceBetween: 10, // achieves the 15px gap between carousel slides as prescribed in final design
+                grabCursor: true,
+                slidesPerView: 1.25,
+                centeredSlides: true,
+            },
+            a11y: {
+                containerMessage: 'Your Accounts',
+                paginationBulletMessage: 'Go to Account {{index}}',
+                lastSlideMessage: 'This is the last Account in this list'
+            },
             accounts: [
                 {
                     name: 'Account 1'
@@ -46,43 +60,12 @@ export default {
         }
     },
     methods: {
-        buildCarouselOptions() {
-            let carouselOptions = {
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                spaceBetween: 10, // achieves the 15px gap between carousel slides as prescribed in final design
-                grabCursor: true,
-                slidesPerView: 1.25,
-                centeredSlides: true,
-                a11y: {
-                    containerMessage: 'Your Accounts',
-                    paginationBulletMessage: 'Go to Account {{index}}',
-                    lastSlideMessage: 'This is the last Account in this list'
-                },
-            }
-
-            this.carouselOptions = carouselOptions;
-        },
         initCarousel() {
             this.accountCarousel = new Swiper(this.$refs.accountCarousel, this.carouselOptions);
         },
-        getTranslate3d (el) {
-            let values = el.style.transform.split(/\w+\(|\);?/);
-            if (!values[1] || !values[1].length) {
-                return [];
-            }
-            return values[1].split(/,\s?/g);
-        }
     },
     mounted () {
-        this.buildCarouselOptions()
-    },
-    watch: {
-        carouselOptions: function () {
-            this.initCarousel();
-        }
+        this.initCarousel();
     },
 }
 </script>
@@ -95,15 +78,17 @@ export default {
 
 /** * Swiper 6.8.4 * Most modern mobile touch slider and framework with hardware accelerated transitions * https://swiperjs.com * * Copyright 2014-2021 Vladimir Kharlampidi * * Released under the MIT License * * Released on: August 23, 2021 */
 :root {
-    --swiper-theme-color: #006eb2;
+    --account-carousel-theme-color: #006eb2;
 }
+
 .swiper-container {
+    height: 240px;
     margin-left:auto;
     margin-right:auto;
     position:relative;
     overflow:hidden;
     list-style:none;
-    padding:0;
+    padding: 6px 0 0 0;
     z-index:1
 }
 
@@ -137,6 +122,44 @@ export default {
 }
 .swiper-container-autoheight,.swiper-container-autoheight .swiper-slide {
     height: auto
+}
+
+.swiper-slide {
+    border: 1px solid #ccc;
+    transition: all .2s;
+    height: 166px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.25);
+    margin-top: 10px;
+}
+.swiper-slide-active {
+    margin-top: 0;
+    height: 196px;
+    margin-top: 0;
+}
+
+/** PAGINATION */ 
+.swiper-pagination-bullets {
+  bottom: 10px;
+}
+
+.swiper-pagination-bullet {
+  height: 12px;
+  width: 12px;
+  opacity: 0.7;
+  margin: 0 0.5rem 0 0;
+  transition: all 0.2s;
+  background-color: #ccc;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #006eb2;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active:hover {
+  opacity: 1;
 }
 
 .swiper-pagination {
@@ -177,7 +200,7 @@ button.swiper-pagination-bullet {
 }
 .swiper-pagination-bullet-active{
     opacity: 1;
-    background: var(--swiper-pagination-color,var(--swiper-theme-color));
+    background: var(--swiper-pagination-color,var(--account-carousel-theme-color));
 }
 
 .swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet{
@@ -213,49 +236,6 @@ button.swiper-pagination-bullet {
 
 .swiper-pagination-lock{
     display:none
-}
-
-.swiper-container {
-    height: 240px;
-    padding-top: 6px;
-}
-
-.swiper-slide {
-    border: 1px solid #ccc;
-    transition: all .2s;
-    height: 166px;
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.25);
-    margin-top: 10px;
-}
-.swiper-slide-active {
-    margin-top: 0;
-    height: 196px;
-    margin-top: 0;
-}
-
-/** PAGINATION */ 
-.swiper-pagination-bullets {
-  bottom: 10px;
-}
-
-.swiper-pagination-bullet {
-  height: 12px;
-  width: 12px;
-  opacity: 0.7;
-  margin: 0 0.5rem 0 0;
-  transition: all 0.2s;
-  background-color: #ccc;
-}
-
-.swiper-pagination-bullet-active {
-  background-color: #006eb2;
-  opacity: 1;
-}
-
-.swiper-pagination-bullet-active:hover {
-  opacity: 1;
 }
 
 /** CAROUSEL ADJUSTMENTS */
